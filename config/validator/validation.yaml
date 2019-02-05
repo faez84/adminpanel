@@ -1,0 +1,5 @@
+App\Entity\Application:
+    properties:
+        name:
+            - NotBlank: {message: store.name.blank,groups: [bazaar_store_admin] }
+            - Length: {min: 2, minMessage: store.name.short ,max: 255,maxMessage: store.name.long,groups: [bazaar_store_admin] }

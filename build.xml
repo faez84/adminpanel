@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Sample Symfony Application" default="testphp">
+
+    <resolvepath propertyName="root_path" file="./" />
+    <resolvepath propertyName="config_path" file="./app/config/" />
+
+    <php function="date" returnProperty="build_date">
+        <param value="c" />
+    </php>
+
+    <target name="testphp">
+        <exec command="php bin/phpunit" checkreturn="true" passthru="true"/>
+    </target>
+
+
+</project>

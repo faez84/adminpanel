@@ -1,0 +1,48 @@
+version: '3'
+services:
+    apache:
+        build: .docker/apache
+        container_name: sf4_apache
+        ports:
+          - 80:80
+        volumes:
+          - .docker/config/vhosts:/etc/apache2/sites-enabled
+          - .:/home/wwwroot/sf4
+        depends_on:
+          - php
+
+    php:
+        build: .docker/php
+        container_name: sf4_php
+        volumes:
+          - .:/home/wwwroot/sf4
+        ports:
+            - 3322:3306
+        environment:
+          - maildev_host=sf4_maildev
+        depends_on:
+          - maildev
+          - mysql
+    mysql:
+        image: mariadb
+        ports:
+          - 3306:3306
+        environment:
+            MYSQL_ROOT_PASSWORD: admin
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        restart: always
+        links:
+          - mysql
+        ports:
+          - 8183:80
+        environment:
+            PMA_HOST: mysql
+            MYSQL_USERNAME: admin
+            MYSQL_ROOT_PASSWORD: admin
+            PMA_ARBITRARY: 1
+    maildev:
+        image: djfarrelly/maildev
+        container_name: sf4_maildev
+        ports:
+          - 8001:80

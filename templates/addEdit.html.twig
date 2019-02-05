@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ modelName }}{% endblock %}
+        {% block stylesheets %}
+
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+ {% block javascripts %}
+        {{ encore_entry_script_tags('spider') }}
+ {% endblock %}
+{% block body %}
+    <div class="col-12 col-md-12 main-page-content">
+        <div class="col-12 col-md-12 list">
+            <div class="row">
+                <div class="col-12 col-md-12 list-title">{{ 'Add ' ~ modelName }}</div>
+            </div>
+            <div class="col-11 col-md-11">
+
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            {% set childs = form.children %}
+            {#{{ form_row(form.name) }}#}
+            {% for field in fields %}
+                <div class="row">
+                    <div class="col-2 col-md-2 general-form-label">
+
+                        {{ form_label(childs[field['name']]) }}
+
+                    </div>
+
+                    {% if (field['type'] != 'CollectionType') %}
+
+
+                        <div class="col-1 col-md-1 general-form-item">
+                            {{ form_widget(childs[field['name']]) }}
+                            {{ form_errors(childs[field['name']]) }}
+                        </div>
+
+                    {% else %}
+                        <ul class="collection_class" data-prototype="{{ form_widget(form.domains.vars.prototype)|e('html_attr') }}">
+                            {% for domain in childs['domains'] %}
+                                <li>{{ form_row(domain.name) }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

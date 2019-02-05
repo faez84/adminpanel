@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ modelName }}{% endblock %}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+ {% block javascripts %}
+     {{ encore_entry_script_tags('spider') }}
+     {{ encore_entry_script_tags('api') }}
+ {% endblock %}
+
+{% block body %}
+    <div class="col-12 col-md-12">
+        <div class="col-12 col-md-12 list">
+            <div class="row">
+                <div class="col-12 col-md-12 list-title">{{ 'Add ' ~ modelName }}</div>
+            </div>
+            <div class="row">
+                <div class="col-6 col-md-3">
+                    <a href="{{ path('cpanel_globalroutes', {'sectionName': 'sdasd', 'modelName': 'Application', 'action': 'add', }) }}">
+                        Add
+                    </a>
+                </div>
+            </div>
+            <div class="row list-header">
+                {% for field in fields %}
+                    {% if field['list'] %}
+                        <div class="col-6 col-md-2">{{ field['name'] }}</div>
+                    {% endif %}
+                {% endfor %}
+                <th></th>
+                <th></th>
+            </div>
+            <div class="list-body">
+                {% for item in data %}
+                    <div class="row list-item">
+                        {% for field in fields %}
+                            {% if field['type'] == 'CollectionType' %}
+                                <div class="col-6 col-md-2">{{ model.callBackFunction(field['listFunction'], item['id']) }}</div>
+                            {% else %}
+                                <div class="col-6 col-md-2">{{ item[field['name']] }}</div>
+                            {% endif %}
+                        {% endfor %}
+                        <div class="col-6 col-md-2"><i class="far fa-edit"></i></div>
+                        <div class="col-6 col-md-2 deleteBtn" data-entity-id="{{ item['id'] }}"><i class="fa fa-trash" aria-hidden="true"></i></div>
+                        <div class="col-6 col-md-2" data-entity-id="{{ item['id'] }}"><i class="far fa-eye"></i></div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

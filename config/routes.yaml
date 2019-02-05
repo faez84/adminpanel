@@ -1,0 +1,20 @@
+index:
+    path: /cc
+    controller: App\Controller\AdminController::index
+
+cpanel_globalroutes:
+    path:      /cp/{sectionName}/{modelName}/{action}
+    controller: App\Controller\AdminController::globalAction
+    options:
+          expose: true
+
+app_lucky_number:
+    path: /lucky/number
+    defaults: { _controller: App\Controller\AdminController::luckynamber }
+    requirements:
+        _method:  GET
+indexc:
+    path: /ddddd
+    controller: App\Controller\AdminController::indexsds
+    requirements:
+        _method:  GET
